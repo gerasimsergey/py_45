@@ -3,35 +3,36 @@
 
 # Может оцениватся
 class Gradable:
-    def __init__(self): # метод нужен только для инициализации grades
+    # метод нужен только для инициализации grades
+    def __init__(self):
         self.grades = {}
 
-        def get_grade_for_curs(self, curs):
-            result = 0;
-            curs_grades = self.grades.get(curs)
-            if not curs_grades:
-                return 0  # не правильно, но уже лень писать проверки
-            cnt = len(curs_grades)
-            for g in curs_grades:
-                result = result + int(g)
-            if cnt > 0:
-                result = result / cnt
-            return result
+    def get_grade_for_curs(self, curs):
+        result = 0;
+        curs_grades = self.grades.get(curs)
+        if not curs_grades:
+            return 0  # не правильно, но уже лень писать проверки
+        cnt = len(curs_grades)
+        for g in curs_grades:
+            result = result + int(g)
+        if cnt > 0:
+            result = result / cnt
+        return result
 
-        def avg_grade(self):
-            sum_grade = 0
-            qt_grades = 0
+    def avg_grade(self):
+        sum_grade = 0
+        qt_grades = 0
 
-            for x in self.grades.values():
-                for grade in x:
-                    sum_grade = sum_grade + int(grade)
-                    qt_grades = qt_grades + len(x)
+        for x in self.grades.values():
+            for grade in x:
+                sum_grade = sum_grade + int(grade)
+                qt_grades = qt_grades + len(x)
 
-            if qt_grades > 0:
-                avg_grade = sum_grade / qt_grades
-                return avg_grade
-            else:
-                return
+        if qt_grades > 0:
+            avg_grade = sum_grade / qt_grades
+            return avg_grade
+        else:
+            return
 
 class Student(Gradable):
     def __init__(self, name, surname, gender):
@@ -40,7 +41,7 @@ class Student(Gradable):
         self.gender = gender
         self.finished_courses = []
         self.courses_in_progress = []
-        super(Gradable, self).__init__()
+        super().__init__()
 
     def __str__(self):
         avg_grade = self.avg_grade()
@@ -76,12 +77,8 @@ class Mentor:
 class Lecturer(Mentor, Gradable):
     def __init__(self, name, surname):
         super().__init__(name,surname)
-        # super(Gradable, self).__init__()
-        super(Gradable).__init__()
+        Gradable.__init__(self)
 
-    # def __init__(self, name, surname):
-    #     super(Mentor, self).__init__(name,surname)
-    #     super(Gradable, self).__init__()
 
     def __lt__(self, other):
         if not isinstance(other, Lecturer):
